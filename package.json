@@ -1,6 +1,6 @@
 {
-  "name": "@siddiqus/expressive",
-  "version": "4.0.17",
+  "name": "Sonjog",
+  "version": "0.0.1",
   "description": "Fast, opinionated, minimalist, and conventional REST API framework for NodeJS, built on ExpressJs.",
   "main": "src/index.js",
   "files": [
@@ -18,7 +18,7 @@
     "dev:ts": "cd ts-example && npm start",
     "test:report": "npm test -- --reporters default jest-stare --testResultsProcessor=jest-stare"
   },
-  "author": "Sabbir Siddiqui <siddiqus@live.com>",
+  "author": "",
   "license": "MIT",
   "dependencies": {
     "@types/cors": "2.8.12",
@@ -30,7 +30,8 @@
     "helmet": "5.0.2",
     "morgan-body": "2.6.6",
     "swagger-ui-express": "4.3.0",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "yarn": "^1.22.22"
   },
   "jest-stare": {
     "resultDir": "reports/jest-stare",
@@ -72,15 +73,6 @@
     "type": "git",
     "url": "git+https://github.com/siddiqus/expressive.git"
   },
-  "keywords": [
-    "express",
-    "framework",
-    "nodejs",
-    "server",
-    "javascript",
-    "rest api",
-    "convention based routing"
-  ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
