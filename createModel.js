@@ -39,12 +39,10 @@ const modelTemplate = `module.exports = (sequelize, DataTypes) => {
   });
 
   // Associations
-  ${hasAssociations ? `
   ${modelName}.associate = (models) => {
     // Define your associations here
     // Example: ${modelName}.belongsTo(models.OtherModel);
   };
-  ` : ''}
 
   return ${modelName};
 };`;

@@ -16,6 +16,7 @@
     "lintFix": "eslint --fix src || echo Linting done!",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.js",
     "create-model": "node createModel.js",
+    "migrate": "npx sequelize-cli db:migrate",
     "dev:ts": "cd ts-example && npm start",
     "test:report": "npm test -- --reporters default jest-stare --testResultsProcessor=jest-stare"
   },
