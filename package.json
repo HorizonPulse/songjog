@@ -19,7 +19,8 @@
     "migrate": "npx sequelize-cli db:migrate",
     "dev:ts": "cd ts-example && npm start",
     "test:report": "npm test -- --reporters default jest-stare --testResultsProcessor=jest-stare",
-    "start": "NODE_ENV=development nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts"
+    "start": "NODE_ENV=development nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
+    "start:dev": "tsx watch src/server.ts"
   },
   "author": "",
   "license": "MIT",
