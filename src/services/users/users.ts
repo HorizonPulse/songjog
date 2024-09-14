@@ -1,6 +1,6 @@
 import { Model, Transaction } from 'sequelize';
-import { sequelize } from '../../databases/db';
 import { UserInterface } from './types';
+import { sequelize } from '../../db';
 
 export const fetchUserByEmail = async (
   email: string,

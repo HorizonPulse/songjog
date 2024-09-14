@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import config from '../configs';
-import { sequelize } from '../databases/db';
+import configs from '../config';
+import { sequelize } from '../db';
 
 interface DecodedToken {
   id: string;
@@ -20,22 +20,26 @@ export const isAuthenticated = async (
     });
   }
 
-  jwt.verify(token, config.get('jwt.secret'), async (err, decoded) => {
-    if (err) {
-      return res.status(401).send({
-        message: 'Unauthorized!'
+  jwt.verify(
+    token,
+    configs.get('jwt.secret'),
+    async (err: any, decoded: any) => {
+      if (err) {
+        return res.status(401).send({
+          message: 'Unauthorized!'
+        });
+      }
+      const isBlackListed = await sequelize.models.TokenBlackList.findOne({
+        where: { token }
       });
+      if (isBlackListed?.dataValues) {
+        return res.status(401).send({
+          message: 'Imvalid token!'
+        });
+      }
+      const decodedToken = decoded as DecodedToken;
+      req.user = { id: Number(decodedToken.id) };
+      return next();
     }
-    const isBlackListed = await sequelize.models.TokenBlackList.findOne({
-      where: { token }
-    });
-    if (isBlackListed?.dataValues) {
-      return res.status(401).send({
-        message: 'Imvalid token!'
-      });
-    }
-    const decodedToken = decoded as DecodedToken;
-    req.user = { id: Number(decodedToken.id) };
-    return next();
-  });
+  );
 };

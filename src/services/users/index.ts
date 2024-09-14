@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 
 import { SignupInterface } from './types';
-import configs from '../../configs';
-import { sequelize } from '../../databases/db';
+import configs from '../../config';
+
 import { createUser, fetchUserByEmail, fetchUserByUserName } from './users';
 import { comparePassword, hashPassword } from '../../utils/bcrypt';
 import { createOrReturnTransaction } from '../../utils/utils';
+import { sequelize } from '../../db';
 
 export async function signUp(data: SignupInterface) {
   const { email, password, username, tx } = data;
