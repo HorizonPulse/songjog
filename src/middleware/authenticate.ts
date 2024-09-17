@@ -8,12 +8,24 @@ interface DecodedToken {
   id: string;
 }
 
+export function extractAuthorizationToken(req: Request) {
+  const authorizationHeader =
+    req.get('Authorization') || req.get('X-Access-Token');
+  // @ts-ignore
+  // console.log('extractAuthorizationToken-auth-header-found', req.id, req.url);
+  if (authorizationHeader) {
+    return authorizationHeader.replace(/Bearer +/i, '');
+  }
+
+  return null;
+}
+
 export const isAuthenticated = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<any> => {
-  const token = req.headers['x-access-token'] as string | undefined;
+  const token = extractAuthorizationToken(req);
 
   if (!token) {
     return res.status(403).send({
