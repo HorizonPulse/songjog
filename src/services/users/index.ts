@@ -7,6 +7,8 @@ import { createUser, fetchUserByEmail, fetchUserByUserName } from './users';
 import { comparePassword, hashPassword } from '../../utils/bcrypt';
 import { createOrReturnTransaction } from '../../utils/utils';
 import { sequelize } from '../../db';
+import { cacheKeys } from '../../db/redis/cacheKeys';
+import { addToCache, removeFromCache } from '../../db/redis';
 
 export async function signUp(data: SignupInterface) {
   const { email, password, username, tx } = data;
@@ -39,7 +41,7 @@ export async function signUp(data: SignupInterface) {
   return newUser;
 }
 
-export async function signin(opts: { email: string; password: string }) {
+export async function signIn(opts: { email: string; password: string }) {
   const { email, password } = opts;
   return await createOrReturnTransaction(null, async (transaction) => {
     const user = await fetchUserByEmail(email, transaction);
@@ -60,18 +62,15 @@ export async function signin(opts: { email: string; password: string }) {
       expiresIn: 86400 // 24 hours
     });
 
+    const key = cacheKeys.generateTokenKeys(token);
+    await addToCache(key, String(key), 86400);
+
     return token;
   });
 }
 
-export async function signout(opts: { userId: number; token: string }) {
-  const { userId, token } = opts;
-  await createOrReturnTransaction(null, async (transaction) => {
-    await sequelize.models.TokenBlackList.create({
-      user_id: userId,
-      token,
-      transaction
-    });
-    return true;
-  });
+export async function signOut(opts: { token: string }) {
+  const { token } = opts;
+  const key = cacheKeys.generateTokenKeys(token);
+  await removeFromCache(key);
 }

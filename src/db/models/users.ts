@@ -1,8 +1,8 @@
-import { Column, DataType, Table } from "sequelize-typescript";
-import BaseModel from "./baseModel";
+import { Column, DataType, Table } from 'sequelize-typescript';
+import BaseModel from './baseModel';
 
-@Table({ tableName: "users", underscored: true })
-export class User extends BaseModel {
+@Table({ tableName: 'users', underscored: true })
+export class Users extends BaseModel {
   @Column({ type: DataType.STRING, allowNull: false })
   first_name!: string;
 
@@ -21,7 +21,7 @@ export class User extends BaseModel {
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
   username!: string;
 
-  @Column({ type: DataType.STRING, allowNull: false, defaultValue: "active" })
+  @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'active' })
   status!: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
@@ -37,4 +37,4 @@ export class User extends BaseModel {
   country_code!: string;
 }
 
-export default User;
+export default Users;

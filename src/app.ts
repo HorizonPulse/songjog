@@ -1,4 +1,5 @@
 import { ExpressApp } from '.';
+import { isAuthenticated } from './middleware/authenticate';
 import { errorHandler } from './middleware/errorMiddleware';
 import { router } from './routes';
 

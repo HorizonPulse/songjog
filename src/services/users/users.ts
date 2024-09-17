@@ -10,7 +10,7 @@ export const fetchUserByEmail = async (
     id: number;
     hash: string;
     salt: string;
-  }> | null = await sequelize.models.User.findOne({
+  }> | null = await sequelize.models.Users.findOne({
     where: {
       email
     },
@@ -23,7 +23,7 @@ export const fetchUserByUserName = async (
   username: string,
   transaction?: Transaction
 ) => {
-  const data = await sequelize.models.User.findOne({
+  const data = await sequelize.models.Users.findOne({
     where: {
       username
     },
@@ -37,7 +37,7 @@ export const fetchUserByUserId = async (
   userId: number,
   transaction?: Transaction
 ) => {
-  const data = await sequelize.models.User.findOne({
+  const data = await sequelize.models.Users.findOne({
     where: {
       id: userId
     },
@@ -50,7 +50,7 @@ export const createUser = async (
   data: UserInterface,
   transaction: Transaction
 ) => {
-  const user = await sequelize.models.User.create(
+  const user = await sequelize.models.Users.create(
     {
       first_name: data.firstName,
       last_name: data.lastName,

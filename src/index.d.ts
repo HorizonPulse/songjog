@@ -11,7 +11,7 @@ import type {
 export declare type express = typeof import('express');
 
 interface Request extends ExpressRequest {
-  id?: string
+  id?: string;
   authorizer?: AuthorizerType;
   user?: Record<string, any>;
 }
@@ -20,10 +20,10 @@ export type Response = ExpressResponse;
 export type NextFunction = ExpressNextFunction;
 
 export interface Handler {
-  (req: Request, res: Response, next: NextFunction): void
+  (req: Request, res: Response, next: NextFunction): void;
 }
 
-export type HelmetOptions = typeof import('helmet').HelmetOptions
+export type HelmetOptions = typeof import('helmet').HelmetOptions;
 
 export type Express = ExpressType;
 export type ErrorRequestHandler = ExpressErrorRequestHandler;
@@ -34,7 +34,7 @@ export declare const isValidationError: typeof import('celebrate').isCelebrateEr
 export declare const celebrate: typeof import('celebrate');
 
 import { celebrate as CelebrateFn } from 'celebrate';
-export type ValidationOptions = Parameters<typeof CelebrateFn>[1]
+export type ValidationOptions = Parameters<typeof CelebrateFn>[1];
 
 export declare interface SwaggerInfoContact {
   name?: string;
@@ -66,14 +66,14 @@ export declare abstract class BaseController {
   next: NextFunction;
 
   getData(): {
-    body: Record<string, any>
-    query: Record<string, any>
-    params: Record<string, any>
+    body: Record<string, any>;
+    query: Record<string, any>;
+    params: Record<string, any>;
     fileUpload: {
-      file: any
-      files: any
-    }
-    user: Record<string, any>
+      file: any;
+      files: any;
+    };
+    user: Record<string, any>;
   };
 
   ok(data?: any): void;
@@ -104,10 +104,10 @@ export declare interface ValidationSchema {
   cookies?: object;
   signedCookies?: object;
   fileUpload?: {
-    file?: object,
-    files?: object
-  }
-  options?: ValidationOptions
+    file?: object;
+    files?: object;
+  };
+  options?: ValidationOptions;
 }
 
 interface SwaggerResponseMap {
@@ -121,7 +121,13 @@ export declare interface SwaggerEndpointDoc {
   tags?: string[];
 }
 
-type AuthorizerType = Handler | Handler[] | string | string[] | object | object[];
+type AuthorizerType =
+  | Handler
+  | Handler[]
+  | string
+  | string[]
+  | object
+  | object[];
 
 export declare type RouteMethod =
   | 'get'
@@ -139,40 +145,19 @@ export declare interface Endpoint {
 }
 
 export declare class Route {
-  static get(
-    path: string,
-    controller: BaseController
-  ): Endpoint;
+  static get(path: string, controller: BaseController): Endpoint;
 
-  static post(
-    path: string,
-    controller: BaseController
-  ): Endpoint;
+  static post(path: string, controller: BaseController): Endpoint;
 
-  static delete(
-    path: string,
-    controller: BaseController
-  ): Endpoint;
+  static delete(path: string, controller: BaseController): Endpoint;
 
-  static put(
-    path: string,
-    controller: BaseController
-  ): Endpoint;
+  static put(path: string, controller: BaseController): Endpoint;
 
-  static head(
-    path: string,
-    controller: BaseController
-  ): Endpoint;
+  static head(path: string, controller: BaseController): Endpoint;
 
-  static options(
-    path: string,
-    controller: BaseController
-  ): Endpoint;
+  static options(path: string, controller: BaseController): Endpoint;
 
-  static patch(
-    path: string,
-    controller: BaseController
-  ): Endpoint;
+  static patch(path: string, controller: BaseController): Endpoint;
 }
 
 export declare interface Subroute {
@@ -188,7 +173,7 @@ export declare function subroute(
   path: string,
   router: ExpressiveRouter,
   options?: Pick<Subroute, 'authorizer' | 'middleware' | 'validationSchema'>
-): Subroute
+): Subroute;
 
 export declare interface ExpressiveRouter {
   routes?: Endpoint[];
@@ -196,22 +181,25 @@ export declare interface ExpressiveRouter {
 }
 
 export type SwaggerSecurityDefinitions = {
-  [key in string]: {
-    type: 'basic'
-  } | {
-    type: 'apiKey'
-    in: 'header' | 'query'
-    name: string
-  } | {
-    type: 'oauth2'
-    flow: string
-    authorizationUrl: string
-    tokenUrl: string
-    scopes: {
-      [key in string]: string
-    }
-  }
-}
+  [key in string]:
+    | {
+        type: 'basic';
+      }
+    | {
+        type: 'apiKey';
+        in: 'header' | 'query';
+        name: string;
+      }
+    | {
+        type: 'oauth2';
+        flow: string;
+        authorizationUrl: string;
+        tokenUrl: string;
+        scopes: {
+          [key in string]: string;
+        };
+      };
+};
 
 export interface ExpressiveOptions {
   basePath?: string;
@@ -221,7 +209,7 @@ export interface ExpressiveOptions {
   swaggerBasicAuth?: {
     user: string;
     password: string;
-  }
+  };
   swaggerSecurityDefinitions?: SwaggerSecurityDefinitions;
   allowCors?: boolean;
   corsConfig?: CorsOptions;
@@ -234,8 +222,8 @@ export interface ExpressiveOptions {
   notFoundHandler?: Handler;
   authObjectHandler?: Handler;
   requestLoggerOptions?: import('morgan-body').IMorganBodyOptions & {
-    disabled: boolean
-  }
+    disabled: boolean;
+  };
 }
 
 export declare class ExpressApp {

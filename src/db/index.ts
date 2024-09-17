@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import configs from '../config';
-import User from './models/users';
+import Users from './models/users';
 
 const pgConfigs = configs.get('postgres');
 
@@ -11,5 +11,5 @@ export const sequelize = new Sequelize({
   username: pgConfigs.user,
   password: pgConfigs.password,
   database: pgConfigs.database,
-  models: [User]
+  models: [Users]
 });

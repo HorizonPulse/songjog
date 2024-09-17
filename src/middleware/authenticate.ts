@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import configs from '../config';
-import { sequelize } from '../db';
+import { getFromCache } from '../db/redis';
+import { cacheKeys } from '../db/redis/cacheKeys';
 
 interface DecodedToken {
   id: string;
@@ -29,12 +30,11 @@ export const isAuthenticated = async (
           message: 'Unauthorized!'
         });
       }
-      const isBlackListed = await sequelize.models.TokenBlackList.findOne({
-        where: { token }
-      });
-      if (isBlackListed?.dataValues) {
+      const key = cacheKeys.generateTokenKeys(token);
+      const isValid = await getFromCache(key);
+      if (!isValid) {
         return res.status(401).send({
-          message: 'Imvalid token!'
+          message: 'Invalid token!'
         });
       }
       const decodedToken = decoded as DecodedToken;

@@ -1,5 +1,5 @@
 import { Transaction } from 'sequelize';
-import { sequelize } from '../databases/db';
+import { sequelize } from '../db';
 
 export async function createOrReturnTransaction<T>(
   transaction: Transaction | null | undefined,
