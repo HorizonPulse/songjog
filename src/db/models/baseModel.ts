@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
-import { Column, Model } from "sequelize-typescript";
+import { DataTypes } from 'sequelize';
+import { Column, Model } from 'sequelize-typescript';
 
 class BaseModel<
   TModelAttributes extends {} = any,
@@ -9,23 +9,23 @@ class BaseModel<
     primaryKey: true,
     type: DataTypes.INTEGER,
     autoIncrement: true,
-    allowNull: false,
+    allowNull: false
   })
-  declare id: number;
+  declare ID: number;
 
   @Column({
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: new Date(),
+    defaultValue: new Date()
   })
-  declare created_at: Date;
+  declare CREATED_AT: Date;
 
   @Column({
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: new Date(),
+    defaultValue: new Date()
   })
-  declare updated_at: Date;
+  declare UPDATED_AT: Date;
 }
 
 export default BaseModel;

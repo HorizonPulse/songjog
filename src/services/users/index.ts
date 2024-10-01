@@ -1,28 +1,20 @@
 import jwt from 'jsonwebtoken';
-
-import { SignupInterface } from './types';
+import { SignupInterface, userType } from './types';
 import configs from '../../config';
-
-import { createUser, fetchUserByEmail, fetchUserByUserName } from './users';
+import { createUser, fetchUserByEmail } from './users';
 import { comparePassword, hashPassword } from '../../utils/bcrypt';
 import { createOrReturnTransaction } from '../../utils/utils';
-import { sequelize } from '../../db';
 import { cacheKeys } from '../../db/redis/cacheKeys';
 import { addToCache, removeFromCache } from '../../db/redis';
+import { sequelize } from '../../db';
 
 export async function signUp(data: SignupInterface) {
-  const { email, password, username, tx } = data;
+  const { email, password, tx } = data;
   const newUser = await createOrReturnTransaction(tx, async (transaction) => {
     // validate duplicate email address
     const emailExists = await fetchUserByEmail(email, transaction);
     if (emailExists) {
       throw new Error('Someone already taken this email address.');
-    }
-
-    // validate duplicate username
-    const usernameExists = await fetchUserByUserName(username, transaction);
-    if (usernameExists) {
-      throw new Error('Someone already taken this username.');
     }
 
     // handle password
@@ -35,6 +27,25 @@ export async function signUp(data: SignupInterface) {
       },
       transaction
     );
+
+    if (data.userType === userType.EMPLOYEE) {
+      await sequelize.models.Employees.create(
+        {
+          USER_ID: user.ID
+        },
+        { transaction }
+      );
+    }
+
+    if (data.userType === userType.EMPLOYER) {
+      await sequelize.models.Employers.create(
+        {
+          USER_ID: user.ID
+        },
+        { transaction }
+      );
+    }
+
     return user;
   });
 

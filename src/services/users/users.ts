@@ -52,18 +52,17 @@ export const createUser = async (
 ) => {
   const user = await sequelize.models.Users.create(
     {
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      hash: data.hash,
-      salt: data.salt,
-      username: data.username,
-      dob: data.dob,
-      gender: data.gender,
-      phone_number: data.phoneNumber,
-      country_code: data.countryCode
+      FIRST_NAME: data.firstName,
+      LAST_NAME: data.lastName,
+      EMAIL: data.email,
+      HASH: data.hash,
+      SALT: data.salt,
+      DOB: data.dob,
+      GENDER: data.gender,
+      PHONE_NUMBER: data.phoneNumber,
+      COUNTRY_CODE: data.countryCode
     },
     { transaction }
   );
-  return user;
+  return user.dataValues;
 };
