@@ -1,5 +1,4 @@
 import { BaseController, Joi, ValidationSchema } from '../..';
-import { isAuthenticated } from '../../middleware/authenticate';
 import { signIn, signOut, signUp } from '../../services/users';
 
 export class SignUpController extends BaseController {
@@ -7,38 +6,44 @@ export class SignUpController extends BaseController {
     body: {
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
-      username: Joi.string().required(),
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
-      phoneNumber: Joi.string().required(),
-      countryCode: Joi.string().required(),
+      phoneNumber: Joi.string().optional(),
+      countryCode: Joi.string().optional(),
+      location: Joi.string().optional(),
+      thanaId: Joi.number().optional(),
       dob: Joi.string().required(),
-      gender: Joi.string().required()
+      gender: Joi.string().required(),
+      userType: Joi.string().required().allow('employer', 'employee')
     }
   };
   async handleRequest() {
     const {
       email,
       password,
-      username,
       firstName,
       lastName,
       phoneNumber,
       countryCode,
       dob,
-      gender
+      gender,
+      location,
+      thanaId,
+      userType
     } = this.getData().body;
 
     await signUp({
       email,
       password,
-      username,
       firstName,
       lastName,
       phoneNumber,
       countryCode,
       dob,
-      gender
+      gender,
+      location,
+      thanaId,
+      userType
     });
 
     this.ok({

@@ -3,38 +3,50 @@ import BaseModel from './baseModel';
 
 @Table({ tableName: 'users', underscored: true })
 export class Users extends BaseModel {
-  @Column({ type: DataType.STRING, allowNull: false })
-  first_name!: string;
-
-  @Column({ type: DataType.STRING, allowNull: false })
-  last_name!: string;
-
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
-  email!: string;
+  PHONE_NUMBER!: string;
 
-  @Column({ type: DataType.TEXT, allowNull: false, unique: true })
-  hash!: string;
+  @Column({ type: DataType.STRING, allowNull: false })
+  COUNTRY_CODE!: string;
 
-  @Column({ type: DataType.TEXT, allowNull: false })
-  salt!: string;
-
-  @Column({ type: DataType.STRING, allowNull: false, unique: true })
-  username!: string;
+  @Column({ type: DataType.STRING, allowNull: false })
+  USER_TYPE!: string;
 
   @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'active' })
-  status!: string;
+  STATUS!: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  gender!: string;
+  FIRST_NAME!: string;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  dob!: string;
+  LAST_NAME!: string;
 
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
-  phone_number!: string;
+  EMAIL!: string;
+
+  @Column({ type: DataType.TEXT, allowNull: false, unique: true })
+  HASH!: string;
+
+  @Column({ type: DataType.TEXT, allowNull: false })
+  SALT!: string;
+
+  @Column({ type: DataType.TEXT, allowNull: false, unique: true })
+  PHOTO!: string;
+
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  LOCATION!: string;
+
+  @Column({ type: DataType.INTEGER, allowNull: false, unique: true })
+  THANA_ID!: number;
+
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  NID!: string;
+
+  @Column({ type: DataType.DATE, allowNull: false })
+  DATE_OF_BIRTH!: Date;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  country_code!: string;
+  SEX!: string;
 }
 
 export default Users;
