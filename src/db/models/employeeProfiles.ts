@@ -1,7 +1,7 @@
 import { Column, DataType, Table } from 'sequelize-typescript';
 import BaseModel from './baseModel';
 
-@Table({ tableName: 'employee_profiles', underscored: true })
+@Table({ tableName: 'employee_profiles' })
 export class Employees extends BaseModel {
   @Column({ type: DataType.INTEGER, allowNull: false, unique: true })
   USER_ID!: number;
@@ -26,6 +26,9 @@ export class Employees extends BaseModel {
 
   @Column({ type: DataType.STRING, allowNull: true, unique: true })
   BIRTH_CERTIFICATE!: string;
+
+  @Column({ type: DataType.BOOLEAN, defaultValue: false })
+  IS_VERIFIED!: boolean;
 }
 
 export default Employees;

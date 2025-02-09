@@ -4,10 +4,6 @@ import configs from '../config';
 import { getFromCache } from '../db/redis';
 import { cacheKeys } from '../db/redis/cacheKeys';
 
-interface DecodedToken {
-  id: string;
-}
-
 export function extractAuthorizationToken(req: Request) {
   const authorizationHeader =
     req.get('Authorization') || req.get('X-Access-Token');
@@ -33,25 +29,20 @@ export const isAuthenticated = async (
     });
   }
 
-  jwt.verify(
-    token,
-    configs.get('jwt.secret'),
-    async (err: any, decoded: any) => {
-      if (err) {
-        return res.status(401).send({
-          message: 'Unauthorized!'
-        });
-      }
-      const key = cacheKeys.generateTokenKeys(token);
-      const isValid = await getFromCache(key);
-      if (!isValid) {
-        return res.status(401).send({
-          message: 'Invalid token!'
-        });
-      }
-      const decodedToken = decoded as DecodedToken;
-      req.user = { id: Number(decodedToken.id) };
-      return next();
+  jwt.verify(token, configs.get('jwt.secret'), async (err: any) => {
+    if (err) {
+      return res.status(401).send({
+        message: 'Unauthorized!'
+      });
     }
-  );
+    const key = cacheKeys.generateTokenKeys(token);
+    const tokenFromRedis = await getFromCache(key);
+    if (!tokenFromRedis) {
+      return res.status(401).send({
+        message: 'Invalid token!'
+      });
+    }
+    req.user = JSON.parse(tokenFromRedis);
+    return next();
+  });
 };

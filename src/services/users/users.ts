@@ -6,31 +6,15 @@ export const fetchUserByEmail = async (
   email: string,
   transaction?: Transaction
 ) => {
-  const user: Model<{
-    id: number;
-    hash: string;
-    salt: string;
-  }> | null = await sequelize.models.Users.findOne({
+  const user: Model<
+    UserInterface
+  > | null = await sequelize.models.Users.findOne({
     where: {
-      email
+      EMAIL: email
     },
     transaction
   });
   return user?.dataValues;
-};
-
-export const fetchUserByUserName = async (
-  username: string,
-  transaction?: Transaction
-) => {
-  const data = await sequelize.models.Users.findOne({
-    where: {
-      username
-    },
-    raw: true,
-    transaction
-  });
-  return data;
 };
 
 export const fetchUserByUserId = async (
@@ -39,7 +23,7 @@ export const fetchUserByUserId = async (
 ) => {
   const data = await sequelize.models.Users.findOne({
     where: {
-      id: userId
+      ID: userId
     },
     transaction
   });
@@ -52,15 +36,16 @@ export const createUser = async (
 ) => {
   const user = await sequelize.models.Users.create(
     {
-      FIRST_NAME: data.firstName,
-      LAST_NAME: data.lastName,
-      EMAIL: data.email,
-      HASH: data.hash,
-      SALT: data.salt,
-      DOB: data.dob,
-      GENDER: data.gender,
-      PHONE_NUMBER: data.phoneNumber,
-      COUNTRY_CODE: data.countryCode
+      FIRST_NAME: data.FIRST_NAME,
+      LAST_NAME: data.LAST_NAME,
+      EMAIL: data.EMAIL,
+      HASH: data.HASH,
+      SALT: data.SALT,
+      DOB: data.DOB,
+      GENDER: data.GENDER,
+      PHONE_NUMBER: data.PHONE_NUMBER,
+      COUNTRY_CODE: data.COUNTRY_CODE,
+      USER_TYPE: data.USER_TYPE
     },
     { transaction }
   );

@@ -1,7 +1,7 @@
 import { Column, DataType, Table } from 'sequelize-typescript';
 import BaseModel from './baseModel';
 
-@Table({ tableName: 'employee_profiles', underscored: true })
+@Table({ tableName: 'employee_profiles' })
 export class Employers extends BaseModel {
   @Column({ type: DataType.INTEGER, allowNull: false, unique: true })
   USER_ID!: number;

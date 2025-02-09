@@ -13,5 +13,9 @@ export const sequelize = new Sequelize({
   username: pgConfigs.user,
   password: pgConfigs.password,
   database: pgConfigs.database,
+  define: {
+    createdAt: false,
+    updatedAt: false
+  },
   models: [Users, Employees, Employers]
 });

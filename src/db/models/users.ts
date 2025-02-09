@@ -1,7 +1,7 @@
 import { Column, DataType, Table } from 'sequelize-typescript';
 import BaseModel from './baseModel';
 
-@Table({ tableName: 'users', underscored: true })
+@Table({ tableName: 'users' })
 export class Users extends BaseModel {
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
   PHONE_NUMBER!: string;
@@ -30,23 +30,23 @@ export class Users extends BaseModel {
   @Column({ type: DataType.TEXT, allowNull: false })
   SALT!: string;
 
-  @Column({ type: DataType.TEXT, allowNull: false, unique: true })
+  @Column({ type: DataType.TEXT, allowNull: true, unique: true })
   PHOTO!: string;
 
-  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  @Column({ type: DataType.STRING, allowNull: true, unique: true })
   LOCATION!: string;
 
-  @Column({ type: DataType.INTEGER, allowNull: false, unique: true })
+  @Column({ type: DataType.INTEGER, allowNull: true, unique: true })
   THANA_ID!: number;
 
-  @Column({ type: DataType.STRING, allowNull: false, unique: true })
+  @Column({ type: DataType.STRING, allowNull: true, unique: true })
   NID!: string;
 
-  @Column({ type: DataType.DATE, allowNull: false })
+  @Column({ type: DataType.DATE, allowNull: true })
   DATE_OF_BIRTH!: Date;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  SEX!: string;
+  GENDER!: string;
 }
 
 export default Users;

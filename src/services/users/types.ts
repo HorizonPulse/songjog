@@ -13,32 +13,33 @@ export enum userType {
 }
 
 export interface SignupInterface {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  countryCode: string;
-  dob: string;
-  gender: Sex;
-  phoneNumber: string;
-  location: string;
-  thanaId: number;
-  userType: userType;
+  FIRST_NAME: string;
+  LAST_NAME: string;
+  EMAIL: string;
+  PASSWORD: string;
+  COUNTRY_CODE: string;
+  DOB: string;
+  GENDER: Sex;
+  PHONE_NUMBER: string;
+  LOCATION: string;
+  THANA_ID: number;
+  USER_TYPE: userType;
   tx?: Transaction;
 }
 
 export interface UserInterface {
-  firstName: string;
-  lastName: string;
-  email: string;
-  countryCode: string;
-  dob: string;
-  gender: Sex;
-  phoneNumber: string;
-  hash: string;
-  salt: string;
-  location: string;
-  thanaId: number;
-  userType: userType;
-  status?: 'active' | 'inactive';
+  ID?: number;
+  FIRST_NAME: string;
+  LAST_NAME: string;
+  EMAIL: string;
+  COUNTRY_CODE: string;
+  PHONE_NUMBER: string;
+  HASH: string;
+  SALT: string;
+  DOB: string;
+  GENDER: string;
+  LOCATION: string;
+  THANA_ID: number;
+  USER_TYPE: userType;
+  STATUS?: 'active' | 'inactive';
 }

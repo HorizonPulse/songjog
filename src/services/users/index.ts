@@ -9,26 +9,26 @@ import { addToCache, removeFromCache } from '../../db/redis';
 import { sequelize } from '../../db';
 
 export async function signUp(data: SignupInterface) {
-  const { email, password, tx } = data;
+  const { EMAIL, PASSWORD, tx } = data;
   const newUser = await createOrReturnTransaction(tx, async (transaction) => {
     // validate duplicate email address
-    const emailExists = await fetchUserByEmail(email, transaction);
+    const emailExists = await fetchUserByEmail(EMAIL, transaction);
     if (emailExists) {
       throw new Error('Someone already taken this email address.');
     }
 
     // handle password
-    const { hash, salt } = await hashPassword(password);
+    const { hash, salt } = await hashPassword(PASSWORD);
     const user = await createUser(
       {
         ...data,
-        hash: hash,
-        salt: salt
+        HASH: hash,
+        SALT: salt
       },
       transaction
     );
 
-    if (data.userType === userType.EMPLOYEE) {
+    if (data.USER_TYPE === userType.EMPLOYEE) {
       await sequelize.models.Employees.create(
         {
           USER_ID: user.ID
@@ -37,7 +37,7 @@ export async function signUp(data: SignupInterface) {
       );
     }
 
-    if (data.userType === userType.EMPLOYER) {
+    if (data.USER_TYPE === userType.EMPLOYER) {
       await sequelize.models.Employers.create(
         {
           USER_ID: user.ID
@@ -62,19 +62,26 @@ export async function signIn(opts: { email: string; password: string }) {
     }
 
     // verify password
-    const match = await comparePassword(password, user.salt, user.hash);
+    const match = await comparePassword(password, user.SALT, user.HASH);
     if (!match) {
       throw new Error('Invalid credentials');
     }
 
-    const token = jwt.sign({ id: user.id }, configs.get('jwt.secret'), {
+    const token = jwt.sign({ id: user.ID }, configs.get('jwt.secret'), {
       algorithm: 'HS256',
       allowInsecureKeySizes: true,
       expiresIn: 86400 // 24 hours
     });
 
     const key = cacheKeys.generateTokenKeys(token);
-    await addToCache(key, String(key), 86400);
+    const value = {
+      id: user.ID,
+      email: user.EMAIL,
+      userType: user.USER_TYPE,
+      phoneNumber: user.PHONE_NUMBER,
+      countryCode: user.COUNTRY_CODE
+    };
+    await addToCache(key, JSON.stringify(value), 86400);
 
     return token;
   });

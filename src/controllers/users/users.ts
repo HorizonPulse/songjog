@@ -1,4 +1,5 @@
 import { BaseController, Joi, ValidationSchema } from '../..';
+import { extractAuthorizationToken } from '../../middleware/authenticate';
 import { signIn, signOut, signUp } from '../../services/users';
 
 export class SignUpController extends BaseController {
@@ -19,31 +20,31 @@ export class SignUpController extends BaseController {
   };
   async handleRequest() {
     const {
-      email,
-      password,
-      firstName,
-      lastName,
-      phoneNumber,
-      countryCode,
-      dob,
-      gender,
-      location,
-      thanaId,
-      userType
+      email: EMAIL,
+      password: PASSWORD,
+      firstName: FIRST_NAME,
+      lastName: LAST_NAME,
+      phoneNumber: PHONE_NUMBER,
+      countryCode: COUNTRY_CODE,
+      dob: DOB,
+      gender: GENDER,
+      location: LOCATION,
+      thanaId: THANA_ID,
+      userType: USER_TYPE
     } = this.getData().body;
 
     await signUp({
-      email,
-      password,
-      firstName,
-      lastName,
-      phoneNumber,
-      countryCode,
-      dob,
-      gender,
-      location,
-      thanaId,
-      userType
+      EMAIL,
+      PASSWORD,
+      FIRST_NAME,
+      LAST_NAME,
+      PHONE_NUMBER,
+      COUNTRY_CODE,
+      DOB,
+      GENDER,
+      LOCATION,
+      THANA_ID,
+      USER_TYPE
     });
 
     this.ok({
@@ -76,7 +77,7 @@ export class SignInController extends BaseController {
 
 export class SignOutController extends BaseController {
   async handleRequest() {
-    const token = this.req.headers['x-access-token'] as string | undefined;
+    const token = extractAuthorizationToken(this.req as any);
     if (!token) {
       throw new Error('Token not found');
     }
